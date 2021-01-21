@@ -19,16 +19,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        field = emptyArray()
-        field += findViewById<TextView>(R.id.textView1)
-        field += findViewById<TextView>(R.id.textView2)
-        field += findViewById<TextView>(R.id.textView3)
-        field += findViewById<TextView>(R.id.textView4)
-        field += findViewById<TextView>(R.id.textView5)
-        field += findViewById<TextView>(R.id.textView6)
-        field += findViewById<TextView>(R.id.textView7)
-        field += findViewById<TextView>(R.id.textView8)
-        field += findViewById<TextView>(R.id.textView9)
+        field = arrayOf(findViewById(R.id.textView1),
+                        findViewById(R.id.textView2),
+                        findViewById(R.id.textView3),
+                        findViewById(R.id.textView4),
+                        findViewById(R.id.textView5),
+                        findViewById(R.id.textView6),
+                        findViewById(R.id.textView7),
+                        findViewById(R.id.textView8),
+                        findViewById(R.id.textView9))
 
         moveUp = findViewById<ImageButton>(R.id.moveUp)
         moveDown = findViewById<ImageButton>(R.id.moveDown)
@@ -41,153 +40,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickMoveLeft(view: View) {
-        var isBlocksMoved = false
-        for (i in 0..8 step 3) {
-            if (field[i].text != "" && field[i].text == field[i+1].text) {
-                field[i].text = (field[i].text.toString().toInt() + field[i+1].text.toString().toInt()).toString()
-                field[i+1].text = field[i+2].text
-                field[i+2].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i].text != "" && field[i+1].text == "" && field[i].text == field[i+2].text) {
-                field[i].text = (field[i].text.toString().toInt() + field[i+2].text.toString().toInt()).toString()
-                field[i+2].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i+1].text != "" && field[i+1].text == field[i+2].text) {
-                field[i+1].text = (field[i+1].text.toString().toInt() + field[i+2].text.toString().toInt()).toString()
-                field[i+2].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i+1].text == "" && field[i+2].text != "") {
-                field[i+1].text = field[i+2].text
-                field[i+2].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i].text == "" && field[i+1].text != "") {
-                field[i].text = field[i+1].text
-                field[i+1].text = ""
-                isBlocksMoved = true
-            }
-        }
-        if (isBlocksMoved) {
-            Spawn.randomNumberSpawn(field)
-            setBlocksColor(field)
-        }
+        moveBlocks(field, 0, 2, 8, 3)
     }
 
     fun onClickMoveRight(view: View) {
-        var isBlocksMoved = false
-        for (i in 0..8 step 3) {
-            if (field[i+2].text != "" && field[i+2].text == field[i+1].text) {
-                field[i+2].text = (field[i+2].text.toString().toInt() + field[i+1].text.toString().toInt()).toString()
-                field[i+1].text = field[i].text
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i+2].text != "" && field[i+1].text == "" && field[i+2].text == field[i].text) {
-                field[i+2].text = (field[i+2].text.toString().toInt() + field[i].text.toString().toInt()).toString()
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i+1].text != "" && field[i+1].text == field[i].text) {
-                field[i+1].text = (field[i+1].text.toString().toInt() + field[i].text.toString().toInt()).toString()
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i+1].text == "" && field[i].text != "") {
-                field[i+1].text = field[i].text
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i+2].text == "" && field[i+1].text != "") {
-                field[i+2].text = field[i+1].text
-                field[i+1].text = ""
-                isBlocksMoved = true
-            }
-        }
-        if (isBlocksMoved) {
-            Spawn.randomNumberSpawn(field)
-            setBlocksColor(field)
-        }
+        moveBlocks(field, 2, 0, 8, 3)
     }
 
     fun onClickMoveUp(view: View) {
-        var isBlocksMoved = false
-        for (i in 0..2) {
-            if (field[i].text != "" && field[i].text == field[i+3].text) {
-                field[i].text = (field[i].text.toString().toInt() + field[i+3].text.toString().toInt()).toString()
-                field[i+3].text = field[i+6].text
-                field[i+6].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i].text != "" && field[i+3].text == "" && field[i].text == field[i+6].text) {
-                field[i].text = (field[i].text.toString().toInt() + field[i+6].text.toString().toInt()).toString()
-                field[i+6].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i+3].text != "" && field[i+3].text == field[i+6].text) {
-                field[i+3].text = (field[i+3].text.toString().toInt() + field[i+6].text.toString().toInt()).toString()
-                field[i+6].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i+3].text == "" && field[i+6].text != "") {
-                field[i+3].text = field[i+6].text
-                field[i+6].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i].text == "" && field[i+3].text != "") {
-                field[i].text = field[i+3].text
-                field[i+3].text = ""
-                isBlocksMoved = true
-            }
-        }
-        if (isBlocksMoved) {
-            Spawn.randomNumberSpawn(field)
-            setBlocksColor(field)
-        }
+        moveBlocks(field, 0, 6, 2, 1)
     }
 
     fun onClickMoveDown(view: View) {
-        var isBlocksMoved = false
-        for (i in 0..2) {
-            if (field[i+6].text != "" && field[i+6].text == field[i+3].text) {
-                field[i+6].text = (field[i+6].text.toString().toInt() + field[i+3].text.toString().toInt()).toString()
-                field[i+3].text = field[i].text
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i+6].text != "" && field[i+3].text == "" && field[i+6].text == field[i].text) {
-                field[i+6].text = (field[i+6].text.toString().toInt() + field[i].text.toString().toInt()).toString()
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            else if (field[i+3].text != "" && field[i+3].text == field[i].text) {
-                field[i+3].text = (field[i+3].text.toString().toInt() + field[i].text.toString().toInt()).toString()
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i+3].text == "" && field[i].text != "") {
-                field[i+3].text = field[i].text
-                field[i].text = ""
-                isBlocksMoved = true
-            }
-            if (field[i+6].text == "" && field[i+3].text != "") {
-                field[i+6].text = field[i+3].text
-                field[i+3].text = ""
-                isBlocksMoved = true
-            }
-        }
-        if (isBlocksMoved) {
-            Spawn.randomNumberSpawn(field)
-            setBlocksColor(field)
-        }
+        moveBlocks(field, 6, 0, 2, 1)
     }
 
     fun onClickMoveRestart(view: View) {
         Spawn.restart(field)
         setBlocksColor(field)
     }
-
 
 }
